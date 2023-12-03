@@ -43,6 +43,7 @@ const Vacform = () => {
     }
   }
 
+
   const onAccchange = (e) => {
     e.preventDefault();
     const data = new FormData(e.target.form);

@@ -94,7 +94,7 @@ app.post("/insertvac", jsonParser, (req, res) => {
       passed_leave_num,
       now_leave_num,
       total_date,
-      con_tel
+      con_tel,
     ],
     function (err) {
       if (err) {
@@ -106,21 +106,37 @@ app.post("/insertvac", jsonParser, (req, res) => {
   );
 });
 
-app.get("/users", (req, res) => {
-  db.query(`SELECT * FROM da_users`, (err, results) => {
-    if (err) {
-      console.error("Error executing MySQL query:", err);
-      res.status(500).send("Internal Server Error");
-      return;
+app.get("/getData", jsonParser, function (req, res) {
+  db.query(
+    `SELECT dv.id as id ,dv.date as date
+,dv.username as username
+,dv.position as position
+,dv.now_leave_num as now_leave_num
+,ds.name as status_name
+    FROM da_vacation as dv 
+    LEFT JOIN da_doc_status as ds ON dv.status = ds.id`,
+    function (err, results) {
+      if (err) {
+        res.json({ status: "error", message: err });
+        return;
+      }
+      res.json({ status: "ok", results: results });
     }
-    res.json(results);
-  });
+  );
 });
 
-app.get("/", (req, res) => res.send("Hello World"));
+//ลบข้อมูลผู้ใช้โดยอ้างอิงจาก ID
+app.post("/user/deleteDoc/id", jsonParser, function (req, res, next) {
+  const id = req.body.id;
+  db.query(`DELETE FROM da_vacation WHERE id=?`, [id], function (err) {
+    if (err) {
+      res.json({ status: "error", message: err });
 
-app.get("/test", (req, res) => res.send("Test...."));
-
+      return;
+    }
+    res.json({ status: "ok" });
+  });
+});
 app.listen(port, () => {
   console.log(`serveruning on port ${port}`);
 });
