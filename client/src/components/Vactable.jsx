@@ -150,7 +150,7 @@ const Vactable = () => {
 
 
   return (
-    <div>
+    <div >
       <div
         style={{
           width: "1600px",
@@ -159,9 +159,11 @@ const Vactable = () => {
           marginTop: "80px",
         }}
       >
-        <div className="p-3 rounded-xl shadow-2xl">
-          <div>
-            <h2 className="mb-4"> ManageUsers</h2>
+        <div className="p-3 rounded-xl shadow-2xl bg-inherit">
+          <div className="p-4">
+          <label className="text-2xl" style={{ color: "rgb(136, 146, 227)" }}>
+          ตารางแสดงข้อมูลคำขอผู้ใช้
+        </label>
           </div>
           <div>
             <DataTable

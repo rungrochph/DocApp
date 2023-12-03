@@ -2,6 +2,7 @@ import Navbar from "./Navbar";
 import Vacform from "./Vacform";
 import { useState } from "react";
 import { Modal } from "antd";
+import Vactable from "./Vactable";
 const useVacation = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openform = () => {
@@ -70,13 +71,8 @@ const useVacation = () => {
           </button>
         </label>
       </div>
-      <div className="p-10 mt-12 mx-12 bg-white-500 rounded-2xl shadow-2xl">
-        <label className="text-2xl" style={{ color: "rgb(136, 146, 227)" }}>
-          Datatable
-          <label style={{ marginLeft: "10rem" }} className="ml-12">
-            --------------------------------------------------------------------------------------------------------------------------------
-          </label>
-        </label>
+      <div>
+        <Vactable/>
       </div>
       <Modal
         // style={{width:"48rem"}}
