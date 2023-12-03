@@ -10,12 +10,15 @@ import Register from './components/Register';
 import Navbar from './components/Navbar';
 import Login  from './components/Login';
 import Menu from './components/Menu';
-
+import Vacation from './components/Vacation';
+import Vacform from './components/Vacform';
 const router = createBrowserRouter([
   {path: "/",element: <Menu/>,}
   ,{path: "/navbar",element: <Navbar/>,}
   ,{path: "/login",element: <Login/>,}
   ,{path: "/Register",element: <Register/>,}
+  ,{path: "/Vacation",element: <Vacation/>,}
+  ,{path: "/Vacform",element: <Vacform/>,}
   
 ]);
 

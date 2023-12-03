@@ -60,28 +60,48 @@ app.post("/login", jsonParser, function (req, res, next) {
   db.query(
     "SELECT * FROM da_users WHERE email =?",
     [req.body.email],
-    function (err, users, fields) {
+    function (err, results, fields) {
       if (err) {
         res.json({ status: "error", message: err });
         return;
       }
-      if (users.length == 0) {
-        res.json({ status: "error", message: "user not found" });
+      res.json({ status: "ok" });
+    }
+  );
+});
+
+//insert vacation form
+app.post("/insertvac", jsonParser, (req, res) => {
+  const username = req.body.username;
+  const position = req.body.position;
+  const workgroup = req.body.workgroup;
+  const accumulated_leave = req.body.accumulated_leave;
+  const total_date_num = req.body.total_date_num;
+  const con_name = req.body.con_name;
+  const passed_leave_num = req.body.passed_leave_num;
+  const now_leave_num = req.body.now_leave_num;
+  const total_date = req.body.total_date;
+  const con_tel = req.body.con_tel;
+  db.query(
+    `INSERT INTO da_vacation (username, position, workqroup, accumulated_leave, total_date_num, con_name, passed_leave_num, now_leave_num, total_date, con_tel) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+    [
+      username,
+      position,
+      workgroup,
+      accumulated_leave,
+      total_date_num,
+      con_name,
+      passed_leave_num,
+      now_leave_num,
+      total_date,
+      con_tel
+    ],
+    function (err) {
+      if (err) {
+        res.json({ status: "error", message: err });
         return;
       }
-      if (req.body.password === users[0].password) {
-        var token = jwt.sign({ email: users[0].email }, secret, {
-          expiresIn: "1h",
-        });
-        res.json({
-          status: "ok",
-          message: "login sucess",
-          token,
-          results: users,
-        });
-      } else {
-        res.json({ status: "error", message: "Login failed" });
-      }
+      res.json({ status: "ok" });
     }
   );
 });

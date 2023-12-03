@@ -2,7 +2,7 @@ import Navbar from "./Navbar";
 import logo from "../assets/images/vacation.png";
 import logo1 from "../assets/images/a.png";
 const onClick = () =>{
-    window.location = "./login";
+    window.location = "./vacation";
 }
 const Menu = () => {
   return (
@@ -13,7 +13,7 @@ const Menu = () => {
           <label className="text-2xl" style={{ color: "rgb(136, 146, 227)" }}>
             Application Menu
             <label style={{ marginLeft: "10rem" }} className="ml-12">
-              ------------------------------------------------------------------------------------------------------------------------------------------
+              --------------------------------------------------------------------------------------------------------------------------------
             </label>
           </label>
         </div>
