@@ -12,7 +12,6 @@ const Vactable = (props) => {
     setIsModalOpen(false);
   };
 
-
   const handleDeleteButtonClick = (clickInfo, id) => {
     clickInfo.preventDefault();
     console.log("Row Id", id);
@@ -84,14 +83,33 @@ const Vactable = (props) => {
       name: "Action",
       button: true,
       cell: (row) => (
-        <div className="flex space-x-2">
+        <div className="flex flex-col space-x-4 p-1">
+          {row.status_name === 'รอยื่นเอกสาร' && (
+            <button
+              className="w-20 h-5  ml-4 mb-1 inline-block rounded bg-green-100 px-2 pb-0 pt-0 py-4 font-small uppercase leading-normal"
+              type="button"
+              onClick={(e) => handleDeleteButtonClick(e, row.id)}
+            >
+              <p className="text-green-500">ยื่นเอกสาร</p>
+            </button>
+          )}
+
           <button
-            className="inline-block rounded bg-red-500 px-2 pb-0 pt-0  font-small uppercase leading-normal text-white-500 shadow-[0_4px_9px_-4px_#e4a11b] transition duration-150 ease-in-out hover:bg-warning-600 hover:shadow-[0_8px_9px_-4px_rgba(228,161,27,0.3),0_4px_18px_0_rgba(228,161,27,0.2)] focus:bg-warning-600 focus:shadow-[0_8px_9px_-4px_rgba(228,161,27,0.3),0_4px_18px_0_rgba(228,161,27,0.2)] focus:outline-none focus:ring-0 active:bg-warning-700 active:shadow-[0_8px_9px_-4px_rgba(228,161,27,0.3),0_4px_18px_0_rgba(228,161,27,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(228,161,27,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(228,161,27,0.2),0_4px_18px_0_rgba(228,161,27,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(228,161,27,0.2),0_4px_18px_0_rgba(228,161,27,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(228,161,27,0.2),0_4px_18px_0_rgba(228,161,27,0.1)]"
+            className="w-20 h-5  ml-4 mb-1 inline-block rounded bg-yellow-100 px-2 pb-0 pt-0 py-4 font-small uppercase leading-normal"
             type="button"
             onClick={(e) => handleDeleteButtonClick(e, row.id)}
           >
-            <p className="bg-white-500">Delete</p>
+            <p className="text-yellow-500">view</p>
           </button>
+          {row.status_name === 'รอยื่นเอกสาร' && (
+          <button
+            className="w-20 h-5  ml-4 mb-1 inline-block rounded bg-red-100 px-2 pb-0 pt-0 py-4 font-small uppercase leading-normal"
+            type="button"
+            onClick={(e) => handleDeleteButtonClick(e, row.id)}
+          >
+            <p className="text-red-500">Delete</p>
+          </button>
+          )}
         </div>
       ),
     },

@@ -95,6 +95,7 @@ function Vacsearch() {
           position: event.position,
           now_leave_num: event.now_leave_num,
           status_name: event.status_name,
+          status_id:event.status_id
         }));
         setDataVac(formattedEvents);
         console.log("Data-user", result);

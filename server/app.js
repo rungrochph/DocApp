@@ -178,9 +178,6 @@ app.post("/searchData", jsonParser, async function (req, res) {
       endDate: endDate,
       status: status,
     };
-
-    console.log("datatoget", datatoget);
-
     const results = await new Promise((resolve, reject) => {
       db.query(
         `SELECT dv.id as id 
@@ -204,7 +201,6 @@ app.post("/searchData", jsonParser, async function (req, res) {
     });
 
     res.json({ status: "ok", results: results });
-    console.log("results", results);
   } catch (error) {
     res.json({ status: "error", message: error.message });
   }
