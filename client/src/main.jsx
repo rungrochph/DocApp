@@ -14,6 +14,7 @@ import Vacation from './components/Vacation';
 import Vacform from './components/Vacform';
 import Vactable from './components/Vactable';
 import Vacsearch from './components/Vacsearch';
+import Statuscard from './components/Statuscard';
 const router = createBrowserRouter([
   {path: "/",element: <Menu/>,}
   ,{path: "/navbar",element: <Navbar/>,}
@@ -23,6 +24,8 @@ const router = createBrowserRouter([
   ,{path: "/Vacform",element: <Vacform/>,}
   ,{path: "/Vactable",element: <Vactable/>,}
   ,{path: "/Vacsearch",element: <Vacsearch/>,}
+  ,{path: "/statuscard",element: <Statuscard/>,}
+  
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

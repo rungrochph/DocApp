@@ -151,6 +151,21 @@ app.get("/calender/getstatus", jsonParser, function (req, res, next){
       }
     ); 
 });
+//ดึง sumstatus where id 
+app.post("/getsumstatus", jsonParser, function (req, res, next){
+  const id = req.body.id
+  db.query(
+    `SELECT COUNT(*) as sum_item FROM da_vacation WHERE status = ?`,[id],
+      function (err, results, fields) {
+        if (err) {
+          res.json({ status: "error", message: err });          
+          return;
+        } 
+        res.json({ status: "ok", results: results });
+      }
+    ); 
+});
+
 
 app.listen(port, () => {
   console.log(`serveruning on port ${port}`);

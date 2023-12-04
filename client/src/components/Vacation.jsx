@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Modal } from "antd";
 import Vactable from "./Vactable";
 import Vacsearch from "./Vacsearch";
+import Statuscard from "./Statuscard";
 const useVacation = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openform = () => {
@@ -25,20 +26,21 @@ const useVacation = () => {
           </label>
         </label>
       </div>
-      <div className="p-10 mt-12 mx-12 bg-inherit ">
-        <label className="text-2xl" style={{ color: "rgb(136, 146, 227)" }}>
-          card Status
-          <label style={{ marginLeft: "10rem" }} className="ml-12">
-            --------------------------------------------------------------------------------------------------------------------------------
-          </label>
+      <div className="pt-12 my-12 mx-8 bg-inheric">
+        <label className="text-2xl p-2 mt-2 mx-12 bg-inheric" style={{ color: "rgb(136, 146, 227)", marginLeft: "7rem",paddingRight:"90rem" }}>
+          แถบแสดงสถานะ
         </label>
+        <div className="mr-4" style={{marginRight:"200px",marginLeft:"8rem"}}>
+        <Statuscard/>
+        </div>
+        
       </div>
 
       <div className="">
-        <div className="mt-2 mx-12 bg-inherit ">
+        <div className="pt-12 mt-4 mx-12 bg-inherit ">
           <label
-            className="text-2xl"
-            style={{ color: "rgb(136, 146, 227)", marginLeft: "7rem" }}
+            className="text-2xl p-2 mt-2 mx-12 bg-white-500 "
+            style={{ color: "rgb(136, 146, 227)", marginLeft: "7rem",paddingRight:"92rem" }}
           >
             ค้นหาข้อมูล
           </label>
