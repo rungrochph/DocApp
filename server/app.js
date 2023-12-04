@@ -139,32 +139,78 @@ app.post("/user/deleteDoc/id", jsonParser, function (req, res, next) {
 });
 
 //ดึงข้อมูลStatus
-app.get("/calender/getstatus", jsonParser, function (req, res, next){
+app.get("/calender/getstatus", jsonParser, function (req, res, next) {
   db.query(
     `SELECT id, name FROM da_doc_status`,
-      function (err, results, fields) {
-        if (err) {
-          res.json({ status: "error", message: err });          
-          return;
-        } 
-        res.json({ status: "ok", results: results });
+    function (err, results, fields) {
+      if (err) {
+        res.json({ status: "error", message: err });
+        return;
       }
-    ); 
+      res.json({ status: "ok", results: results });
+    }
+  );
 });
-//ดึง sumstatus where id 
-app.post("/getsumstatus", jsonParser, function (req, res, next){
-  const id = req.body.id
+//ดึง sumstatus where id
+app.post("/getsumstatus", jsonParser, function (req, res, next) {
+  const id = req.body.id;
   db.query(
-    `SELECT COUNT(*) as sum_item FROM da_vacation WHERE status = ?`,[id],
-      function (err, results, fields) {
-        if (err) {
-          res.json({ status: "error", message: err });          
-          return;
-        } 
-        res.json({ status: "ok", results: results });
+    `SELECT COUNT(*) as sum_item FROM da_vacation WHERE status = ?`,
+    [id],
+    function (err, results, fields) {
+      if (err) {
+        res.json({ status: "error", message: err });
+        return;
       }
-    ); 
+      res.json({ status: "ok", results: results });
+    }
+  );
 });
+
+app.post("/searchData", jsonParser, async function (req, res) {
+  try {
+    const startDate = req.body.startdate;
+    const endDate = req.body.enddate;
+    const status = req.body.statusId;
+
+    const datatoget = {
+      startDate: startDate,
+      endDate: endDate,
+      status: status,
+    };
+
+    console.log("datatoget", datatoget);
+
+    const results = await new Promise((resolve, reject) => {
+      db.query(
+        `SELECT dv.id as id 
+        ,dv.date as date
+        ,dv.username as username
+        ,dv.position as position
+        ,dv.now_leave_num as now_leave_num
+        ,ds.name as status_name
+        ,dv.status as status_id
+        FROM da_vacation as dv 
+        LEFT JOIN da_doc_status as ds ON dv.status = ds.id 
+        WHERE dv.date BETWEEN ? AND ? AND dv.status = ?`,
+        [startDate, endDate, status],
+        function (err, results) {
+          if (err) {
+            reject(err);
+          }
+          resolve(results);
+        }
+      );
+    });
+
+    res.json({ status: "ok", results: results });
+    console.log("results", results);
+  } catch (error) {
+    res.json({ status: "error", message: error.message });
+  }
+});
+
+
 
 
 app.listen(port, () => {

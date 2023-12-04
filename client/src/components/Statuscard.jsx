@@ -20,7 +20,7 @@ const Statuscard = () => {
       );
       const result = await response.json();
       if (result.status === "ok") {
-        console.log("result TotalPrice", result);
+        // console.log("result TotalPrice", result);
         setsts(result.results[0].sum_item);
         // const data = result.results
         // console.log("Data", data);

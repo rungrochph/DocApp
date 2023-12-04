@@ -1,10 +1,17 @@
+/* eslint-disable react/prop-types */
 import DataTable, { Media } from "react-data-table-component";
-import { useEffect, useState } from "react";
-import {  Modal } from "antd";
-const Vactable = () => {
+import { useState } from "react";
+import { Modal } from "antd";
+
+const Vactable = (props) => {
   const [deleteEventID, setDeleteEventId] = useState({ id: null });
-  const [isModalOpen, setIsModalOpen] = useState(false);
+
   // const [editUserID, seteditUserId] = useState({ id: null });
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+
 
   const handleDeleteButtonClick = (clickInfo, id) => {
     clickInfo.preventDefault();
@@ -20,43 +27,14 @@ const Vactable = () => {
   const handleDeleteEvent = () => {
     // console.log(deleteEventID);
     deleteUserById(deleteEventID);
-    console.log("deleted Id =",deleteEventID)
+    console.log("deleted Id =", deleteEventID);
     setIsModalOpen(false);
     // window.location.reload();
   };
   async function deleteUserById(JasonData) {
     try {
-      const response = await fetch(
-        "http://localhost:3030/user/deleteDoc/id",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(JasonData),
-        }
-      );
-      const result = await response.json();
-      if (result.status === "ok") {
-        alert("Delete Event Sucess");
-        window.location.reload()
-      } else {
-        alert("Delete Event failed");
-      }
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  }
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
-  useEffect(() => {
-    getData();
-  }, []);
-  async function getData(JasonData) {
-    try {
-      const response = await fetch("http://localhost:3030/getData", {
-        method: "GET",
+      const response = await fetch("http://localhost:3030/user/deleteDoc/id", {
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
@@ -64,25 +42,16 @@ const Vactable = () => {
       });
       const result = await response.json();
       if (result.status === "ok") {
-        const formatteddata = result.results.map((event) => ({
-          id: event.id,
-          date: event.date,
-          username: event.username,
-          position: event.position,
-          now_leave_num: event.now_leave_num,
-          status_name: event.status_name,
-        }));
-        console.log("formatteddata", formatteddata);
-        setDataList(formatteddata);
-        console.log("You results", result);
+        alert("Delete Event Sucess");
+        window.location.reload();
       } else {
-        alert("Get Event failed");
+        alert("Delete Event failed");
       }
     } catch (error) {
       console.error("Error:", error);
     }
   }
-  const [dataList, setDataList] = useState([]);
+
   const columes = [
     {
       name: "ID",
@@ -148,27 +117,26 @@ const Vactable = () => {
     },
   };
 
-
   return (
-    <div >
+    <div>
       <div
         style={{
           width: "1600px",
           height: "150px",
-          marginLeft: "150px",
+          marginRight: "150rem",
           marginTop: "10px",
         }}
       >
         <div className="p-3 rounded-xl shadow-2xl bg-inherit">
           <div className="p-4">
-          <label className="text-2xl" style={{ color: "rgb(136, 146, 227)" }}>
-          ตารางแสดงข้อมูลคำขอผู้ใช้
-        </label>
+            <label className="text-2xl" style={{ color: "rgb(136, 146, 227)" }}>
+              ตารางแสดงข้อมูลคำขอผู้ใช้
+            </label>
           </div>
           <div>
             <DataTable
               columns={columes}
-              data={dataList}
+              data={props.dataVac}
               initialPageLength={4}
               persistTableHead
               customStyles={customStyles}
