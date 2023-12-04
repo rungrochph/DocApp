@@ -13,7 +13,7 @@ import Menu from './components/Menu';
 import Vacation from './components/Vacation';
 import Vacform from './components/Vacform';
 import Vactable from './components/Vactable';
-
+import Vacsearch from './components/Vacsearch';
 const router = createBrowserRouter([
   {path: "/",element: <Menu/>,}
   ,{path: "/navbar",element: <Navbar/>,}
@@ -22,6 +22,7 @@ const router = createBrowserRouter([
   ,{path: "/Vacation",element: <Vacation/>,}
   ,{path: "/Vacform",element: <Vacform/>,}
   ,{path: "/Vactable",element: <Vactable/>,}
+  ,{path: "/Vacsearch",element: <Vacsearch/>,}
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

@@ -156,7 +156,7 @@ const Vactable = () => {
           width: "1600px",
           height: "150px",
           marginLeft: "150px",
-          marginTop: "80px",
+          marginTop: "10px",
         }}
       >
         <div className="p-3 rounded-xl shadow-2xl bg-inherit">

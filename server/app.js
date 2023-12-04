@@ -137,6 +137,21 @@ app.post("/user/deleteDoc/id", jsonParser, function (req, res, next) {
     res.json({ status: "ok" });
   });
 });
+
+//ดึงข้อมูลStatus
+app.get("/calender/getstatus", jsonParser, function (req, res, next){
+  db.query(
+    `SELECT id, name FROM da_doc_status`,
+      function (err, results, fields) {
+        if (err) {
+          res.json({ status: "error", message: err });          
+          return;
+        } 
+        res.json({ status: "ok", results: results });
+      }
+    ); 
+});
+
 app.listen(port, () => {
   console.log(`serveruning on port ${port}`);
 });
