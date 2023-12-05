@@ -208,37 +208,75 @@ app.post("/searchData", jsonParser, async function (req, res) {
 
 // update status to 2 รอรับเข้าระบบ
 app.post("/sentdoc/updatestatus", jsonParser, function (req, res) {
-  const id = req.body.id
-      db.query(
-        `UPDATE da_vacation SET status = '2'
+  const id = req.body.id;
+  db.query(
+    `UPDATE da_vacation SET status = '2'
         WHERE id =? `,
-        [id],
-        function (err, results,) {
-          if (err) {
-            res.json({ status: "error", message: err });
-            return;
-          }
-          res.json({ status: "ok", results: results });
-        })
+    [id],
+    function (err, results) {
+      if (err) {
+        res.json({ status: "error", message: err });
+        return;
+      }
+      res.json({ status: "ok", results: results });
+    }
+  );
 });
-
 
 // update status to 2 รอรับเข้าระบบ
 app.post("/getData/id", jsonParser, function (req, res) {
-  const id = req.body.id
-      db.query(
-        `SELECT * FROM da_vacation WHERE id =?`,
-        [id],
-        function (err, results,) {
-          if (err) {
-            res.json({ status: "error", message: err });
-            return;
-          }
-          res.json({ status: "ok", results: results });
-        })
+  const id = req.body.id;
+  db.query(
+    `SELECT * FROM da_vacation WHERE id =?`,
+    [id],
+    function (err, results) {
+      if (err) {
+        res.json({ status: "error", message: err });
+        return;
+      }
+      res.json({ status: "ok", results: results });
+    }
+  );
 });
 
+app.post("/update/status/id", jsonParser, function (req, res) {
+  const id = req.body.id;
+  const statusId = req.body.statusId;
+  db.query(
+    `UPDATE da_vacation SET status = ?
+        WHERE id =? `,
+    [statusId, id],
+    function (err, results) {
+      if (err) {
+        res.json({ status: "error", message: err });
+        return;
+      }
+      res.json({ status: "ok", results: results });
+    }
+  );
+});
 
+app.get("/getData/App", jsonParser, function (req, res) {
+  db.query(
+    `SELECT dv.id as id,
+    dv.date as date,
+    dv.username as username,
+    dv.position as position,
+    dv.now_leave_num as now_leave_num,
+    ds.name as status_name,
+    dv.status as status
+FROM da_vacation as dv 
+LEFT JOIN da_doc_status as ds ON dv.status = ds.id 
+WHERE dv.status != '1'`,
+    function (err, results) {
+      if (err) {
+        res.json({ status: "error", message: err });
+        return;
+      }
+      res.json({ status: "ok", results: results });
+    }
+  );
+});
 
 app.listen(port, () => {
   console.log(`serveruning on port ${port}`);

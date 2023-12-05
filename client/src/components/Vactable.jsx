@@ -127,7 +127,7 @@ const handleUpdateEvent = () =>{
       button: true,
       cell: (row) => (
         <div className="flex flex-col space-x-4 p-1">
-          {row.status_name === "รอยื่นเอกสาร" && (
+          {row.status_name === "รอยื่นเอกสาร" || row.status_name === "ตีกลับ" && (
             <button
               className="w-20 h-5  ml-4 mb-1 inline-block rounded bg-green-100 px-2 pb-0 pt-0 py-4 font-small uppercase leading-normal"
               type="button"
@@ -144,7 +144,7 @@ const handleUpdateEvent = () =>{
           >
             <p className="text-yellow-500">view</p>
           </button>
-          {row.status_name === "รอยื่นเอกสาร" && (
+          {row.status_name === "รอยื่นเอกสาร" || row.status_name === "ตีกลับ" && (
             <button
               className="w-20 h-5  ml-4 mb-1 inline-block rounded bg-red-100 px-2 pb-0 pt-0 py-4 font-small uppercase leading-normal"
               type="button"

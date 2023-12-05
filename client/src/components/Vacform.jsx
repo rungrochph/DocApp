@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
+import PropTypes from "prop-types";
 const Vacform = (props) => {
   const [total_date_num, setTotal_date_num] = useState(0);
   const [total_date, setTotal_date] = useState(0);
@@ -11,7 +12,11 @@ const Vacform = (props) => {
   const [conName, setConName] = useState("");
   const [conTel, setConTel] = useState("");
   const [readOnly, setReadOnly] = useState(true);
-
+  Vacform.propTypes = {
+    getEventID: PropTypes.string, // Update the type based on your actual data type
+    readOnly: PropTypes.bool,
+    // Add other prop types as needed
+  };
   useEffect(() => {
     getDataStatus(props.getEventID);
     setReadOnly(props.readOnly);
@@ -93,21 +98,20 @@ const Vacform = (props) => {
     }
   }
 
-  const onAccchange = () => {
-    // e.preventDefault();
-    // const data = new FormData(e.target.form);
-    // console.log("onAccchange", data.get("accumulated_leave"));
-    // setTotal_date_num(parseInt(data.get("accumulated_leave")) + 10);
+  const onAccchange = useCallback(() => {
     setTotal_date_num(parseInt(accumulatedLeave) + 10);
-  };
+  }, [accumulatedLeave]);
 
-  const oninchange = () => {
+  const oninchange = useCallback(() => {
     setTotal_date(parseInt(passed_leave_num) + parseInt(now_leave_num));
-  };
+  }, [passed_leave_num, now_leave_num]);
+
   useEffect(() => {
     oninchange();
     onAccchange();
-  }, [passed_leave_num, now_leave_num, accumulatedLeave]);
+  }, [oninchange, onAccchange]);
+
+  
   return (
     <div>
       <div className="flex flex-col items-center min-h-screen sm:justify-center sm:pt-0 bg-inherit">

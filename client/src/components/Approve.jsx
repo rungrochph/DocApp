@@ -1,12 +1,9 @@
+// import React from 'react'
 import Navbar from "./Navbar";
-// import Vacform from "./Vacform";
+import Appstatuscard from "./Appstatuscard";
+import Appsearch from "./Appsearch";
 import { useState, useEffect } from "react";
-// import { Modal } from "antd";
-
-import Vacsearch from "./Vacsearch";
-import Statuscard from "./Statuscard";
-const useVacation = () => {
-
+function Approve() {
   const [dataVac, setDataVac] = useState();
   useEffect(() => {
     console.log("dataVac in main", dataVac); // Log the updated dataVac
@@ -18,12 +15,13 @@ const useVacation = () => {
     // console.log("dataVac in main", dataVac); // Don't log here, it might be outdated
   };
   return (
-    <div style={{ marginBottom: "20rem" ,paddingBottom:"10rem"}}>
-      <Navbar />
-
+    <div  style={{ marginBottom: "20rem" ,paddingBottom:"10rem"}}>
+      <div>
+        <Navbar />
+      </div>
       <div className="p-10 mt-12 mx-12 bg-white-500 rounded-2xl shadow-2xl">
         <label className="text-2xl" style={{ color: "rgb(136, 146, 227)" }}>
-          ยื่นใบลาพักร้อนออนไลน์
+          อนุมัติยื่นใบลาพักร้อน
           <label style={{ marginLeft: "10rem" }} className="ml-12">
             --------------------------------------------------------------------------------------------------------------------------------
           </label>
@@ -44,7 +42,7 @@ const useVacation = () => {
           className="mr-4"
           style={{ marginRight: "200px", marginLeft: "20rem" }}
         >
-          <Statuscard />
+          <Appstatuscard />
         </div>
       </div>
 
@@ -62,12 +60,12 @@ const useVacation = () => {
           </label>
 
           <div style={{ marginLeft: "10rem" }}>
-            <Vacsearch onStateChange={handleChildStateChange} />
+            <Appsearch onStateChange={handleChildStateChange} />
           </div>
         </div>
       </div>
-
     </div>
   );
-};
-export default useVacation;
+}
+
+export default Approve;
