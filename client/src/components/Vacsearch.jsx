@@ -11,8 +11,10 @@ function Vacsearch() {
   const [dataVac, setDataVac] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  // const [readForm, setReadForm] = (true)
   const openform = () => {
     setIsModalOpen(true);
+    // setReadForm(true)
   };
   
   const handleCancel = () => {
@@ -252,7 +254,7 @@ function Vacsearch() {
           </button>,
         ]}
       >
-        <Vacform />
+        <Vacform readOnly={false}/>
       </Modal>
      
     </div>

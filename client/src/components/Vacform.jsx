@@ -1,5 +1,55 @@
 import { useEffect, useState } from "react";
-const Vacform = () => {
+const Vacform = (props) => {
+  const [total_date_num, setTotal_date_num] = useState(0);
+  const [total_date, setTotal_date] = useState(0);
+  const [passed_leave_num, setPassed_leave_num] = useState(0);
+  const [now_leave_num, setNow_leave_num] = useState(0);
+  const [username, setUsername] = useState("");
+  const [position, setPosition] = useState("");
+  const [workgroup, setWorkgroup] = useState("");
+  const [accumulatedLeave, setAccumulatedLeave] = useState("");
+  const [conName, setConName] = useState("");
+  const [conTel, setConTel] = useState("");
+  const [readOnly, setReadOnly] = useState(true);
+
+  useEffect(() => {
+    getDataStatus(props.getEventID);
+    setReadOnly(props.readOnly);
+    console.log("88888888", props.readOnly);
+  }, [props.getEventID, props.readOnly]);
+  async function getDataStatus(JasonData) {
+    try {
+      const response = await fetch("http://localhost:3030/getData/id", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(JasonData),
+      });
+      const result = await response.json();
+      if (result.status === "ok") {
+        // alert("get Data Sucess");
+        // window.location.reload();
+        console.log("Data recript", result.results);
+        setTotal_date_num(result.results[0].total_date_num);
+        setTotal_date(result.results[0].total_date);
+        setPassed_leave_num(result.results[0].passed_leave_num);
+        setNow_leave_num(result.results[0].now_leave_num);
+        setNow_leave_num(result.results[0].now_leave_num);
+        setUsername(result.results[0].username);
+        setPosition(result.results[0].position);
+        setWorkgroup(result.results[0].workqroup);
+        setAccumulatedLeave(result.results[0].accumulated_leave);
+        setConName(result.results[0].con_name);
+        setConTel(result.results[0].con_tel);
+      } else {
+        alert("get Data failed");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  }
+
   const onSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -43,23 +93,21 @@ const Vacform = () => {
     }
   }
 
-
-  const onAccchange = (e) => {
-    e.preventDefault();
-    const data = new FormData(e.target.form);
-    console.log("onAccchange", data.get("accumulated_leave"));
-    setTotal_date_num(parseInt(data.get("accumulated_leave")) + 10);
+  const onAccchange = () => {
+    // e.preventDefault();
+    // const data = new FormData(e.target.form);
+    // console.log("onAccchange", data.get("accumulated_leave"));
+    // setTotal_date_num(parseInt(data.get("accumulated_leave")) + 10);
+    setTotal_date_num(parseInt(accumulatedLeave) + 10);
   };
-  const [total_date_num, setTotal_date_num] = useState(0);
-  const [total_date, setTotal_date] = useState(0);
-  const [passed_leave_num, setPassed_leave_num] = useState(0);
-  const [now_leave_num, setNow_leave_num] = useState(0);
+
   const oninchange = () => {
     setTotal_date(parseInt(passed_leave_num) + parseInt(now_leave_num));
   };
   useEffect(() => {
     oninchange();
-  }, [passed_leave_num, now_leave_num]);
+    onAccchange();
+  }, [passed_leave_num, now_leave_num, accumulatedLeave]);
   return (
     <div>
       <div className="flex flex-col items-center min-h-screen sm:justify-center sm:pt-0 bg-inherit">
@@ -68,6 +116,7 @@ const Vacform = () => {
             onSubmit={onSubmit}
             style={{ width: "65rem", height: "45rem" }}
             className=" sm:justify-center"
+            readOnly={readOnly}
           >
             <div>
               <label className="text-xl">แบบฟอร์มยื่นขออนุญาตลาพักร้อน</label>
@@ -85,12 +134,15 @@ const Vacform = () => {
                 </label>
                 <div className="flex flex-col items-start">
                   <input
+                    readOnly={readOnly}
                     type="text"
                     name="username"
                     id="username"
+                    value={username}
                     className="block  px-4 py-2 mt-2 text-purple-700 bg-white border rounded-md focus:border-purple-400 focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40"
                     required
                     style={{ width: "25rem" }}
+                    onChange={(e) => setUsername(e.target.value)}
                   />
                 </div>
               </div>
@@ -106,9 +158,12 @@ const Vacform = () => {
                     type="text"
                     name="position"
                     id="position"
+                    value={position}
                     className="block  px-4 py-2 mt-2 text-purple-700 bg-white border rounded-md focus:border-purple-400 focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40"
                     required
                     style={{ width: "25rem" }}
+                    readOnly={readOnly}
+                    onChange={(e) => setPosition(e.target.value)}
                   />
                 </div>
               </div>
@@ -129,9 +184,12 @@ const Vacform = () => {
                     type="text"
                     name="workgroup"
                     id="workgroup"
+                    value={workgroup}
                     className="block  px-4 py-2 mt-2 text-purple-700 bg-white border rounded-md focus:border-purple-400 focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40"
                     required
                     style={{ width: "56.5rem" }}
+                    readOnly={readOnly}
+                    onChange={(e) => setWorkgroup(e.target.value)}
                   />
                 </div>
               </div>
@@ -152,10 +210,12 @@ const Vacform = () => {
                     type="number"
                     name="accumulated_leave"
                     id="accumulated_leave"
+                    value={accumulatedLeave}
                     className="block  px-4 py-2 mt-2 text-purple-700 bg-white border rounded-md focus:border-purple-400 focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40"
                     required
                     style={{ width: "5rem" }}
-                    onChange={onAccchange}
+                    readOnly={readOnly}
+                    onChange={(e) => setAccumulatedLeave(e.target.value)}
                   />
                 </div>
               </div>
@@ -176,6 +236,7 @@ const Vacform = () => {
                     required
                     style={{ width: "5rem" }}
                     readOnly
+                    // onChange={((e)=>setTotal_date_num(e.target.value))}
                   />
                 </div>
               </div>
@@ -196,6 +257,7 @@ const Vacform = () => {
                     className="block  px-4 py-2 mt-2 text-purple-700 bg-white border rounded-md focus:border-purple-400 focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40"
                     required
                     style={{ width: "5rem" }}
+                    readOnly={readOnly}
                   />
                 </div>
               </div>
@@ -216,6 +278,7 @@ const Vacform = () => {
                     className="block  px-4 py-2 mt-2 text-purple-700 bg-white border rounded-md focus:border-purple-400 focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40"
                     required
                     style={{ width: "5rem" }}
+                    readOnly={readOnly}
                   />
                 </div>
               </div>
@@ -256,9 +319,12 @@ const Vacform = () => {
                     type="text"
                     name="con_name"
                     id="con_name"
+                    value={conName}
                     className="block  px-4 py-2 mt-2 text-purple-700 bg-white border rounded-md focus:border-purple-400 focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40"
                     required
                     style={{ width: "25rem" }}
+                    readOnly={readOnly}
+                    onChange={(e) => setConName(e.target.value)}
                   />
                 </div>
               </div>
@@ -277,29 +343,27 @@ const Vacform = () => {
                     className="block  px-4 py-2 mt-2 text-purple-700 bg-white border rounded-md focus:border-purple-400 focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40"
                     required
                     style={{ width: "25rem" }}
+                    value={conTel}
+                    readOnly={readOnly}
+                    onChange={(e) => setConTel(e.target.value)}
                   />
                 </div>
               </div>
             </div>
-            <div
-              className="flex items-center justify-end mt-12 mr-12"
-              style={{ marginTop: "8rem", marginRight: "4rem" }}
-            >
-              {/* <button
-              onClick={handleCancel}
-                style={{ backgroundColor: "#FF9F43" }}
-                className="inline-flex items-center px-4 py-2  text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out  border border-transparent rounded-md active:bg-gray-900 false "
+            {!readOnly && (
+              <div
+                className="flex items-center justify-end mt-12 mr-12"
+                style={{ marginTop: "8rem", marginRight: "4rem" }}
               >
-                cancle
-              </button> */}
-              <button
-                type="submit"
-                style={{ backgroundColor: "rgb(136, 146, 227)" }}
-                className="ml-2  inline-flex items-center px-4 py-2  text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out  border border-transparent rounded-md active:bg-gray-900 false "
-              >
-                บันทึก
-              </button>
-            </div>
+                <button
+                  type="submit"
+                  style={{ backgroundColor: "rgb(136, 146, 227)" }}
+                  className="ml-2 inline-flex items-center px-4 py-2 text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out border border-transparent rounded-md active:bg-gray-900"
+                >
+                  บันทึก
+                </button>
+              </div>
+            )}
           </form>
         </div>
       </div>
