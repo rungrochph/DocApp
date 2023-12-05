@@ -4,6 +4,10 @@ import logo1 from "../assets/images/a.png";
 const onClick = () =>{
     window.location = "./vacation";
 }
+const onClick1 = () =>{
+  window.location = "./approve"
+}
+
 const Menu = () => {
   return (
     <div>
@@ -26,7 +30,7 @@ const Menu = () => {
             />
           </button>
 
-          <button>
+          <button onClick={onClick1}>
             <img
               src={logo1}
               style={{ width: "200px", height: "130px", marginLeft: "2rem" }}

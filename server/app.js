@@ -65,9 +65,22 @@ app.post("/login", jsonParser, function (req, res, next) {
         res.json({ status: "error", message: err });
         return;
       }
-      res.json({ status: "ok" });
+      res.json({ status: "ok", message: "login sucess" ,token, results:results});
+      var token = jwt.sign({email : results[0]. email}, secret, {expiresIn: '1h'});
     }
   );
+});
+
+
+// Authen 
+app.post("/authen", jsonParser, function (req, res, next) {
+  try{
+    const token = req.headers.authorization.split(' ')[1]
+    var decoded = jwt.verify(token,secret)
+    res.json({ status: "ok", decoded});
+  }catch(err){
+    res.json({ status: "error", message:err.message });
+  }
 });
 
 //insert vacation form

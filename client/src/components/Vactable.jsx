@@ -3,6 +3,7 @@ import DataTable, { Media } from "react-data-table-component";
 import { useState } from "react";
 import { Modal } from "antd";
 import Vacform from "./Vacform";
+import Authen from "./Authen";
 const Vactable = (props) => {
   const [deleteEventID, setDeleteEventId] = useState({ id: null });
   const [updateEventID, setUpdateEventId] = useState({ id: null });
@@ -17,7 +18,9 @@ const handlegetButtonClick =(clickInfo, id)=>{
   setVisible(true)
   setIsModalOpenForm(true)
 }
-
+const exportToPdf = (clickInfo, id) => {
+  window.location = `http://localhost:8080/jasperserver/rest_v2/reports/reports/jwReports/vaccationreport.pdf?j_username=jasperadmin&j_password=jasperadmin&ID=${id}`;
+};
   const handleSentDoc = (clickInfo, id) => {
     console.log("Row Id update", id);
     setUpdateEventId({id:id})
@@ -153,6 +156,15 @@ const handleUpdateEvent = () =>{
               <p className="text-red-500">Delete</p>
             </button>
           )}
+            {row.status_name === "ผ่านการอนุมัติ" && (
+            <button
+              className="w-20 h-5  ml-4 mb-1 inline-block rounded bg-sky-100 px-2 pb-0 pt-0 py-4 font-small uppercase leading-normal"
+              type="button"
+              onClick={(e) => exportToPdf(e, row.id)}
+            >
+              <p className="text-sky-500">PDF</p>
+            </button>
+          )}
         </div>
       ),
     },
@@ -180,6 +192,7 @@ const handleUpdateEvent = () =>{
 
   return (
     <div>
+      <Authen/>
       <div
         style={{
           width: "1600px",
